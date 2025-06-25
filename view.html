@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Wishes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="login">
+    <h2>Enter Password</h2>
+    <input id="password" type="password" />
+    <button id="unlock">Unlock</button>
+    <p id="loginMsg"></p>
+  </div>
+  <div id="slideshow" class="hidden">
+    <button id="prevBtn">◀</button>
+    <div id="slideContainer"></div>
+    <button id="nextBtn">▶</button>
+    <button id="autoBtn">Auto</button>
+    <label>Interval (sec): <input id="intervalInput" type="number" value="5" min="1" /></label>
+  </div>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/view.js"></script>
+</body>
+</html>
