@@ -1,6 +1,6 @@
 // scripts/submit.js
 const form = document.getElementById("wishForm");
-const fileInput = document.getElementById("media");
+const fileInput = document.getElementById("mediaFiles");
 
 const generateRandomID = () => Math.random().toString(36).substring(2, 10);
 
@@ -10,6 +10,7 @@ form.addEventListener("submit", async (e) => {
   const surname = form.surname.value.trim();
   const message = form.message.value.trim();
   const files = fileInput.files;
+  console.log("Selected files:", files);
 
   if (files.length > 5) {
     return alert("Maximum of 5 files allowed.");
@@ -27,6 +28,7 @@ form.addEventListener("submit", async (e) => {
     const fileRef = storage.ref(`uploads/${uniqueName}`);
 
     const uploadTask = fileRef.put(file).then((snap) => snap.ref.getDownloadURL());
+    uploadPromises.push(uploadTask);
   }
 
   try {
@@ -38,6 +40,7 @@ form.addEventListener("submit", async (e) => {
       media: urls,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
+    console.log("Media URLs:", urls);
     alert("Wish submitted successfully!");
     form.reset();
   } catch (err) {
