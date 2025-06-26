@@ -1,5 +1,5 @@
 // scripts/submit.js
-// const form = document.getElementById("wishForm");
+const form = document.getElementById("wishForm");
 const fileInput = document.getElementById("media");
 
 const generateRandomID = () => Math.random().toString(36).substring(2, 10);
