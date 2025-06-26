@@ -1,32 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Your Wishes</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Send Your Wishes</title><link rel="stylesheet" href="styles.css"/></head>
 <body>
-  <main>
-    <h1>Happy Birthday! Send Your Wishes</h1>
-    <form id="wishForm">
-      <label>First Name: <input type="text" name="firstName" required /></label>
-      <label>Surname (optional): <input type="text" name="surname" /></label>
-      <label>Wish/Message: <input type="text" name="message" required/></label>
-      <label>Upload up to 5 images/videos:<input type="file" id="mediaFiles" accept="image/*,video/*" multiple /></label>
-      <button type="submit">Submit</button>
-      <p id="status"></p>
-    </form>
-  </main>
-  
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-  <!-- App Logic -->
-  <script src="scripts/app.js"></script>
-  <script src="scripts/submit.js"></script>
+<main>
+  <h1>Happy Birthday! Send Your Wishes</h1>
+  <form id="wishForm" enctype="multipart/form-data">
+    <label>First Name: <input type="text" name="firstName" required/></label>
+    <label>Surname (optional): <input type="text" name="surname"/></label>
+    <label>Wish/Message: <input type="text" name="message" required/></label>
+    <label>Upload up to 5 images/videos:<input type="file" id="mediaFiles" name="mediaFiles" accept="image/*,video/*" multiple/></label>
+    <button type="submit">Submit</button>
+    <p id="status"></p>
+  </form>
+</main>
+<script src="scripts/submit.js"></script>
 </body>
 </html>

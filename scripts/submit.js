@@ -1,50 +1,24 @@
-// scripts/submit.js
-const form = document.getElementById("wishForm");
-const fileInput = document.getElementById("mediaFiles");
+const form = document.getElementById('wishForm');
+const fileInput = document.getElementById('mediaFiles');
 
-const generateRandomID = () => Math.random().toString(36).substring(2, 10);
-
-form.addEventListener("submit", async (e) => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
-  const firstName = form.firstName.value.trim();
-  const surname = form.surname.value.trim();
-  const message = form.message.value.trim();
-  const files = fileInput.files;
-  console.log("Selected files:", files);
-
-  if (files.length > 5) {
-    return alert("Maximum of 5 files allowed.");
-  }
-
-  let totalSize = 0;
-  for (let file of files) totalSize += file.size;
-  if (totalSize > 100 * 1024 * 1024) {
-    return alert("Total file size must not exceed 100MB.");
-  }
-
-  const uploadPromises = [];
-  for (let file of files) {
-    const uniqueName = `${Date.now()}_${generateRandomID()}_${file.name}`;
-    const fileRef = storage.ref(`uploads/${uniqueName}`);
-
-    const uploadTask = fileRef.put(file).then((snap) => snap.ref.getDownloadURL());
-    uploadPromises.push(uploadTask);
-  }
+  const data = new FormData();
+  data.append('first_name', form.firstName.value);
+  data.append('surname', form.surname.value);
+  data.append('message', form.message.value);
+  Array.from(fileInput.files).slice(0,5).forEach((file, i) => data.append('media', file));
 
   try {
-    const urls = await Promise.all(uploadPromises);
-    await db.collection("wishes").add({
-      firstName,
-      surname,
-      message,
-      media: urls,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    const resp = await fetch('https://<your-domain>.pythonanywhere.com/api/wishes/', {
+      method: 'POST',
+      body: data
     });
-    console.log("Media URLs:", urls);
-    alert("Wish submitted successfully!");
+    if (!resp.ok) throw new Error('Submit failed');
+    document.getElementById('status').textContent = 'Thank you!';
     form.reset();
   } catch (err) {
-    console.error("Upload failed:", err);
-    alert("There was an error uploading your wish.");
+    console.error(err);
+    alert('Error submitting your wish.');
   }
 });

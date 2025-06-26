@@ -1,27 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Wishes</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Birthday Wishes</title><link rel="stylesheet" href="styles.css"/></head>
 <body>
-  <div id="gallery"></div>
-
-  <!-- Controls -->
-  <div id="controls">
-    <button id="prevBtn">◀ Previous</button>
-    <button id="nextBtn">Next ▶</button>
-    <button id="startSlideBtn">Start Slideshow</button>
-    <button id="stopSlideBtn">Stop</button>
-  </div>
-
-  <!-- Firebase SDKs + App Logic -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="scripts/app.js"></script>
-  <script src="scripts/view.js"></script>
+<div id="gallery"></div>
+<button id="prevBtn">◀</button><button id="nextBtn">▶</button>
+<button id="autoBtn">Auto</button><input id="interval" type="number" value="5"/>s
+<script src="scripts/view.js"></script>
 </body>
 </html>
