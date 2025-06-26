@@ -6,20 +6,21 @@
   <title>Birthday Wishes</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="centered">
-  <div id="login">
-    <h2>Enter Password</h2>
-    <input id="password" type="password" />
-    <button id="unlock">Unlock</button>
-    <p id="loginMsg"></p>
+<body>
+  <div id="gallery"></div>
+
+  <!-- Controls -->
+  <div id="controls">
+    <button id="prevBtn">◀ Previous</button>
+    <button id="nextBtn">Next ▶</button>
+    <button id="startSlideBtn">Start Slideshow</button>
+    <button id="stopSlideBtn">Stop</button>
   </div>
-  <div id="slideshow" class="hidden">
-    <button id="prevBtn">◀</button>
-    <div id="slideContainer"></div>
-    <button id="nextBtn">▶</button>
-    <button id="autoBtn">Auto</button>
-    <label>Interval (sec): <input id="intervalInput" type="number" value="5" min="1" /></label>
-  </div>
+
+  <!-- Firebase SDKs + App Logic -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="scripts/app.js"></script>
   <script src="scripts/view.js"></script>
 </body>

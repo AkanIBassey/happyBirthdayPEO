@@ -1,40 +1,65 @@
 // scripts/admin.js
-document.getElementById("signInBtn").onclick = async () => {
-  try {
-    await auth.signInWithEmailAndPassword(
-      document.getElementById("email").value,
-      document.getElementById("pw").value
-    );
-    document.getElementById("auth").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-    loadPosts();
-  } catch (e) {
-    document.getElementById("authMsg").textContent = e.message;
+const loginForm = document.getElementById("loginForm");
+const wishList = document.getElementById("wishList");
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    document.getElementById("authSection").style.display = "none";
+    document.getElementById("adminSection").style.display = "block";
+    loadWishes();
+  } else {
+    document.getElementById("authSection").style.display = "block";
+    document.getElementById("adminSection").style.display = "none";
   }
+});
+
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => loginForm.reset())
+    .catch((error) => alert("Login failed: " + error.message));
+});
+
+const loadWishes = () => {
+  wishList.innerHTML = "";
+  db.collection("wishes").orderBy("timestamp", "asc").get().then((snap) => {
+    snap.forEach((doc) => {
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <p><strong>${data.firstName} ${data.surname || ""}</strong>: ${data.message}</p>
+        ${data.media.map(url => url.endsWith(".mp4") ?
+          `<video src="${url}" controls style="max-width:100%"></video>` :
+          `<img src="${url}" style="max-width:100%"/>`).join("")}
+        <button onclick="deleteWish('${doc.id}', ${JSON.stringify(data.media)})">Delete</button>
+      `;
+      wishList.appendChild(div);
+    });
+  });
 };
 
-async function loadPosts() {
-  const snapshot = await db.collection("wishes").orderBy("timestamp", "desc").get();
-  const list = document.getElementById("postsList");
-  list.innerHTML = "";
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <strong>${data.firstName} ${data.surname || ""}</strong>: ${data.message} 
-      <button onclick="deletePost('${doc.id}')">Delete</button>
-      <button onclick="toggleVisibility('${doc.id}', ${!data.hidden})">${data.hidden ? "Unhide" : "Hide"}</button>
-    `;
-    list.appendChild(li);
+function deleteWish(id, urls) {
+  if (!confirm("Delete this wish and its media?")) return;
+
+  const deletePromises = urls.map((url) => {
+    try {
+      const ref = storage.refFromURL(url);
+      return ref.delete();
+    } catch {
+      return Promise.resolve(); // fallback if refFromURL fails
+    }
   });
-}
 
-async function deletePost(id) {
-  await db.collection("wishes").doc(id).delete();
-  loadPosts();
-}
-
-async function toggleVisibility(id, hidden) {
-  await db.collection("wishes").doc(id).update({ hidden });
-  loadPosts();
+  Promise.all(deletePromises).then(() =>
+    db.collection("wishes").doc(id).delete()
+  ).then(() => {
+    alert("Wish deleted.");
+    loadWishes();
+  }).catch((err) => {
+    console.error("Deletion error:", err);
+    alert("Error deleting wish.");
+  });
 }

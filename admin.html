@@ -6,18 +6,26 @@
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="centered">
-  <div id="auth">
+<body>
+  <section id="authSection">
     <h2>Admin Sign-In</h2>
-    <input id="email" type="email" placeholder="Email" required />
-    <input id="pw" type="password" placeholder="Password" required />
-    <button id="signInBtn">Sign In</button>
-    <p id="authMsg"></p>
-  </div>
-  <div id="dashboard" class="hidden">
+    <form id="loginForm">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+    </form>
+  </section>
+
+  <section id="adminSection" style="display:none;">
     <h1>Submissions</h1>
-    <ul id="postsList"></ul>
-  </div>
+    <div id="wishList"></div>
+    <button onclick="auth.signOut()">Sign Out</button>
+  </section>
+
+  <!-- Firebase SDKs + App Logic -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="scripts/app.js"></script>
   <script src="scripts/admin.js"></script>
